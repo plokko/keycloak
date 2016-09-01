@@ -78,12 +78,6 @@
     </management>
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:3.0">
-            <console-handler name="CONSOLE">
-                <level name="INFO"/>
-                <formatter>
-                    <named-formatter name="COLOR-PATTERN"/>
-                </formatter>
-            </console-handler>
             <periodic-rotating-file-handler name="FILE" autoflush="true">
                 <formatter>
                     <named-formatter name="PATTERN"/>
@@ -92,6 +86,13 @@
                 <suffix value=".yyyy-MM-dd"/>
                 <append value="true"/>
             </periodic-rotating-file-handler>
+            <custom-handler name="LOGSTASH" class="biz.paluch.logging.gelf.wildfly.WildFlyGelfLogHandler" module="biz.paluch.logging">
+                <level name="WARN" />
+                <properties>
+                    <property name="host" value="${env.SYSLOG_HOST}" />
+                    <property name="facility" value="${env.GELF_FACILITY}" />
+                </properties>
+            </custom-handler>
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
@@ -104,8 +105,8 @@
             <root-logger>
                 <level name="INFO"/>
                 <handlers>
-                    <handler name="CONSOLE"/>
                     <handler name="FILE"/>
+                    <handler name="LOGSTASH"/>
                 </handlers>
             </root-logger>
             <formatter name="PATTERN">

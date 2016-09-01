@@ -10,16 +10,45 @@ services:
       - /etc/localtime:/etc/localtime
       - /var/local/dcm4chee-arc/ldap:/var/lib/ldap
       - /var/local/dcm4chee-arc/slapd.d:/etc/ldap/slapd.d
+  elasticsearch:
+    image: elasticsearch:2.4
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+      - /var/local/dcm4chee-arc/elasticsearch:/usr/share/elasticsearch/data
+  kibana:
+    image: kibana:4.6
+    ports:
+      - "5601:5601"
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+  logstash:
+    image: dcm4che/logstash-dcm4chee:5.6
+    ports:
+      - "12201:12201/udp"
+      - "8514:8514"
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
   keycloak:
-    image: dcm4che/keycloak:2.1.0.Final
+    image: dcm4che/keycloak:2.1.0.Final-logstash
     ports:
       - "8080:8080"
       - "9990:9990"
     env_file: docker-compose.env
     environment:
-      KEYCLOAK_WAIT_FOR: ldap:389
+      KEYCLOAK_WAIT_FOR: ldap:389 logstash:8514
     links:
       - slapd:ldap
+      - logstash:logstash
     volumes:
       - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime

@@ -49,6 +49,8 @@ ENV WILDFLY_ADMIN_USER=admin \
     LDAP_PORT=389 \
     LDAP_BASE_DN=dc=dcm4che,dc=org \
     LDAP_ROOTPASS=secret \
+    SYSLOG_HOST=logstash \
+    GELF_FACILITY=keycloak \
     KEYCLOAK_DEVICE_NAME=keycloak \
     JAVA_OPTS="-Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
 
