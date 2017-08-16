@@ -39,10 +39,10 @@ services:
       - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
   keycloak:
-    image: dcm4che/keycloak:3.2.1-logstash
+    image: dcm4che/keycloak:3.2.1-1-logstash
     ports:
       - "8880:8880"
-      - "8883:8883"
+      - "8843:8843"
       - "8990:8990"
     env_file: docker-compose.env
     environment:
@@ -57,3 +57,22 @@ services:
       - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
       - /var/local/dcm4chee-arc/keycloak:/opt/keycloak/standalone
+  keycloak-proxy:
+    image: dcm4che/keycloak-proxy:3.2.1-1
+    ports:
+      - "8601:8601"
+      - "8643:8643"
+    env_file: docker-compose.env
+    environment:
+      HTTP_PORT: 8601
+      HTTPS_PORT: 8643
+      AUTH_SERVER_URL: https://gunter-nb:8843/auth
+      TARGET_URL: http://gunter-nb:5601
+      CLIENT_ID: kibana
+      ROLE_ALLOWED: auditlog
+    links:
+      - kibana:kibana
+      - keycloak:keycloak
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
