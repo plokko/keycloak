@@ -6,7 +6,7 @@ if [ "$1" = 'standalone.sh' ]; then
     if [ ! -d $JBOSS_HOME/standalone/configuration ]; then
         cp -r /docker-entrypoint.d/deployments $JBOSS_HOME/standalone
         cp -r /docker-entrypoint.d/configuration $JBOSS_HOME/standalone
-        sed -e "s%\${env.REALM}%${REALM}%" \
+        sed -e "s%\${env.REALM_NAME}%${REALM_NAME}%" \
             -e "s%\${env.LDAP_BASE_DN}%${LDAP_BASE_DN}%" \
             -e "s%\${env.LDAP_HOST}%${LDAP_HOST}%" \
             -e "s%\${env.LDAP_PORT}%${LDAP_PORT}%" \
