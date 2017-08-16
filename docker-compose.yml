@@ -66,7 +66,6 @@ services:
     environment:
       HTTP_PORT: 8601
       HTTPS_PORT: 8643
-      AUTH_SERVER_URL: https://gunter-nb:8843/auth
       TARGET_URL: http://gunter-nb:5601
       CLIENT_ID: kibana
       ROLE_ALLOWED: auditlog
