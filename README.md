@@ -162,6 +162,14 @@ This environment variable sets the facility name needed by GELF logging used in 
 
 This environment variable sets the level of GELF logging used in wildfly configuration. Default value is `WARN`.
 
+#### `BIND_ADDRESS`
+
+Specifies the keycloak public address. Default value `127.0.0.1`, should be set to host name or ip.
+
+#### `BIND_ADDRESS`
+
+Specifies the keycloak management address. Default value is `127.0.0.1`, should be set to host name or ip.
+
 #### `JAVA_OPTS`
 
 This environment variable is used to set the JAVA_OPTS during archive startup. Default value is 
